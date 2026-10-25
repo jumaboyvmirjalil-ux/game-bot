@@ -3,114 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stars Clicker Pro</title>
+    <title>Stars Clicker</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            --accent: #f1c40f;
-            --card-bg: rgba(255, 255, 255, 0.07);
-        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             color: #fff;
             margin: 0;
             padding: 15px;
             text-align: center;
         }
-        h1 { margin: 5px 0; font-size: 22px; color: var(--accent); }
+        h1 { margin: 5px 0; font-size: 22px; }
         .score-board {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: bold;
-            color: var(--accent);
+            color: #f1c40f;
             margin: 10px 0;
-            text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
         }
         .rank-badge {
             display: inline-block;
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 14px;
             font-weight: bold;
             margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
         }
         .rank-bronze { background: #cd7f32; color: #fff; }
         .rank-silver { background: #95a5a6; color: #fff; }
-        .rank-gold { background: #f1c40f; color: #000; box-shadow: 0 0 15px #f1c40f; }
-
-        .clicker-container {
-            position: relative;
-            margin: 20px auto;
-            width: 180px;
-            height: 180px;
-        }
+        .rank-gold { background: #f1c40f; color: #000; }
+        
         .clicker-btn {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #f39c12, #b9770e);
-            border: 4px solid #f1c40f;
+            width: 170px;
+            height: 170px;
+            background: radial-gradient(circle, #f39c12, #d35400);
+            border: none;
             border-radius: 50%;
             color: white;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-            transition: transform 0.08s ease;
-            outline: none;
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4);
+            transition: transform 0.08s;
+            margin: 15px auto;
         }
-        .clicker-btn:active { transform: scale(0.93); }
-
+        .clicker-btn:active { transform: scale(0.92); }
+        
         .section {
-            background: var(--card-bg);
-            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
             padding: 12px;
             margin: 12px 0;
             text-align: left;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1);
         }
-        .section h3 { margin: 0 0 8px 0; font-size: 16px; color: #3498db; }
+        .section h3 { margin: 0 0 6px 0; color: #3498db; font-size: 15px; }
         .section p { margin: 4px 0; font-size: 13px; color: #ddd; }
         
         button.action-btn {
             background: #2ecc71;
             border: none;
             color: white;
-            padding: 7px 14px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 13px;
-            margin-top: 6px;
             width: 100%;
+            margin-top: 8px;
+            font-size: 13px;
         }
         button.action-btn:active { background: #27ae60; }
-        
-        /* Floating click animation */
-        .floating-num {
-            position: absolute;
-            color: #2ecc71;
-            font-weight: bold;
-            font-size: 20px;
-            pointer-events: none;
-            animation: floatUp 0.6s ease-out forwards;
-        }
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-50px) scale(1.3); }
-        }
     </style>
 </head>
 <body>
 
-    <h1>⭐ Stars Clicker Pro</h1>
+    <h1>⭐ Stars Clicker</h1>
     <div id="rankBadge" class="rank-badge rank-bronze">Bronza Unvoni</div>
     <div class="score-board"><span id="score">0</span> ⭐</div>
 
-    <div class="clicker-container">
-        <button class="clicker-btn" onclick="handleClick(event)">⭐</button>
-    </div>
+    <button class="clicker-btn" onclick="handleClick()">CLICK</button>
 
     <div class="section">
         <h3>⚡ Klik Kuchini Oshirish</h3>
@@ -127,7 +98,7 @@
 
     <div class="section">
         <h3>🎰 Baraban (Lucky Spin)</h3>
-        <p>Kuniga 1 marta bepul aylantiring! (3 ta yulduz = 100 ⭐)</p>
+        <p>Kuniga 1 marta bepul (3 ta yulduz = 100 ⭐)</p>
         <button class="action-btn" onclick="spinWheel()">Barabanni Aylantirish</button>
     </div>
 
@@ -141,7 +112,6 @@
     </div>
 
 <script>
-    // --- SOZLAMALAR (Bu yerdan istalgan qiymatni o'zgartirishingiz mumkin) ---
     let gameData = {
         score: parseInt(localStorage.getItem('score')) || 0,
         clickPower: parseInt(localStorage.getItem('clickPower')) || 10,
@@ -167,37 +137,26 @@
         document.getElementById("clickPrice").innerText = gameData.nextClickPrice;
         document.getElementById("dayCount").innerText = gameData.currentDay;
         
-        // Kunlik mukofot ҳisobi: 1-kun 1 ta, keyingilarga +2 tadan qo'shilib boradi
         let currentDailyReward = 1 + (gameData.currentDay - 1) * 2;
         document.getElementById("dailyRewardVal").innerText = currentDailyReward;
 
         let badge = document.getElementById("rankBadge");
         if (gameData.score < 1000000) {
             badge.className = "rank-badge rank-bronze";
-            badge.innerText = "🥉 Bronza Unvoni (1M gacha)";
+            badge.innerText = "Bronza Unvoni (1M gacha)";
         } else if (gameData.score < 10000000) {
             badge.className = "rank-badge rank-silver";
-            badge.innerText = "🥈 Kumush Unvoni (10M gacha)";
+            badge.innerText = "Kumush Unvoni (10M gacha)";
         } else {
             badge.className = "rank-badge rank-gold";
-            badge.innerText = "🥇 Oltin Unvoni (100M+)";
+            badge.innerText = "Oltin Unvoni (100M+)";
         }
     }
 
-    function handleClick(event) {
+    function handleClick() {
         gameData.score += gameData.clickPower;
         saveGame();
         updateUI();
-
-        // Bosganda chiqadigan +qiymat animatsiyasi
-        let rect = event.target.getBoundingClientRect();
-        let el = document.createElement('div');
-        el.className = 'floating-num';
-        el.innerText = "+" + gameData.clickPower;
-        el.style.left = (event.clientX || event.touches[0].clientX) + 'px';
-        el.style.top = (event.clientY || event.touches[0].clientY) - 20 + 'px';
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 600);
     }
 
     function upgradeClick() {
@@ -206,13 +165,12 @@
             gameData.clickPower += 10;
             gameData.clickLevel++;
 
-            // Siz so'ragan narx bosqichlari
             if (gameData.clickLevel == 2) gameData.nextClickPrice = 10000;
             else if (gameData.clickLevel == 3) gameData.nextClickPrice = 50000;
             else if (gameData.clickLevel == 4) gameData.nextClickPrice = 80000;
             else if (gameData.clickLevel == 5) gameData.nextClickPrice = 120000;
             else if (gameData.clickLevel == 6) gameData.nextClickPrice = 180000;
-            else gameData.nextClickPrice += 110000; // 6-darajadan keyin har safar +110,000 qo'shiladi
+            else gameData.nextClickPrice += 110000;
 
             saveGame();
             updateUI();
@@ -225,7 +183,7 @@
     function claimDaily() {
         let today = new Date().toDateString();
         if (gameData.lastClaimDate === today) {
-            alert("Bugungi kunlik mukofotni allaqachon olgansiz! Ertaga qaytib keling.");
+            alert("Bugungi kunlik mukofotni allaqachon olgansiz!");
             return;
         }
 
@@ -236,20 +194,20 @@
         if (gameData.currentDay < 30) {
             gameData.currentDay++;
         } else {
-            gameData.currentDay = 1; // 30 kundan keyin boshidan boshlanadi
+            gameData.currentDay = 1;
         }
 
         saveGame();
         updateUI();
-        alert(`Tabriklayman! Kunlik mukofotga ${reward} ta yulduzcha qo'shildi! 🎉`);
+        alert(`Kunlik mukofot olindi: +${reward} ta yulduzcha! 🎉`);
     }
 
     function spinWheel() {
-        let win = Math.random() < 0.25 ? 100 : 5; // 25% ehtimol bilan 100 ta yulduz
+        let win = Math.random() < 0.25 ? 100 : 5;
         if (win === 100) {
-            alert("🎰 Barabanda 3 ta yulduz chiqdi! Sizga 100 ta yulduzcha berildi! ⭐");
+            alert("Barabanda 3 ta yulduz chiqdi! +100 ⭐");
         } else {
-            alert("🎰 Barabandan 5 ta yulduz tushdi!");
+            alert("Barabandan 5 ta yulduz tushdi!");
         }
         gameData.score += win;
         saveGame();
@@ -261,7 +219,7 @@
             gameData.score -= price;
             saveGame();
             updateUI();
-            alert("Muvaffaqiyatli xarid qilindi! Real listing balansiga yozib borildi. 🚀");
+            alert("Muvaffaqiyatli xarid qilindi va listingga qo'shildi!");
         } else {
             alert("Yetarli yulduzcha mavjud emas!");
         }
